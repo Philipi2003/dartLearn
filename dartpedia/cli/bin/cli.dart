@@ -1,19 +1,23 @@
 import 'package:command_runner/command_runner.dart';
 
+
 const version = '0.0.1';
 
-void main(List<String> arguments) async {
+
+void main(List<String> arguments) {
+  // [Step 6 update] Add onError method
   var commandRunner = CommandRunner(
-    onError: (Object error){
-      if (error is Error){
-        print('cheguei');
+    onOutput: (String output) async {
+      await write(output);
+    },
+    onError: (Object error) {
+      if (error is Error) {
         throw error;
       }
-      if (error is Exception){
+      if (error is Exception) {
         print(error);
       }
-    }
+    },
   )..addCommand(HelpCommand());
   commandRunner.run(arguments);
 }
-
